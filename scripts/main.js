@@ -1,3 +1,4 @@
+// I don't know how to mod
 Events.on(ClientLoadEvent, () => {  
 
     let bool = false;
