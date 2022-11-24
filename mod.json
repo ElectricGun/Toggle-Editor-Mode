@@ -1,0 +1,8 @@
+name: "editor-button"
+displayName: "Toggle Editor Mode"
+author: "ElectricGun"
+description: "Click button to toggle Editor mode.\n\n[stat]Does not work on Multiplayer and Campaign"
+version: "0.0"
+repo: "electricgun/editor-button"
+hidden: true
+minGameVersion: "136"
