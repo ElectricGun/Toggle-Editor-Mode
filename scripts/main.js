@@ -1,5 +1,3 @@
-
-
 Events.on(ClientLoadEvent, () => {  
 
     let bool = false;
