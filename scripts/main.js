@@ -1,7 +1,6 @@
-// I don't know how to mod
-Events.on(ClientLoadEvent, () => {  
+var isEditor = false;
 
-    let bool = false;
+Events.on(ClientLoadEvent, () => {  
 
     let tablew = 50;
     let tableh = 50;
@@ -10,24 +9,29 @@ Events.on(ClientLoadEvent, () => {
     let button = TextButton("Off")
     table.add(button).size(tablew, tableh).padLeft(6).padTop(-6);
     table.y = (tablew, tableh)
+    
+    Events.run(Trigger.update, () => {
+        isEditor = Vars.state.rules.editor;
+        button.setText(isEditor ? "On" : "Off");
+    });
 
     button.clicked(() => {
         
-        bool = !bool;
+        isEditor = !isEditor;
         
         if (Vars.state.rules.sector || Vars.net.client()) {
     
-            Log.info("Cannot");
-            bool = false;
+            Log.info("That would be cheating");
+            isEditor = false;
             
         } 
     
-        Vars.state.rules.editor = bool;
+        Vars.state.rules.editor = isEditor;
             
-        button.setText(bool ? "On" : "Off");
 
-        Log.info("Editor is" + bool);
+//        Log.info("Editor is" + isEditor);
     });
+    
 
     Vars.ui.hudGroup.addChild(table);
 
