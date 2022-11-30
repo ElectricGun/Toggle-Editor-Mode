@@ -5,7 +5,7 @@ Events.on(ClientLoadEvent, () => {
     let tablew = 50;
     let tableh = 50;
 
-    var table = new Table().top().left();
+    var table = new Table().bottom().left();
     let button = TextButton("Off")
     table.add(button).size(tablew, tableh).padLeft(6).padTop(-6);
     table.y = (tablew, tableh)
