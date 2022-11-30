@@ -5,4 +5,4 @@ description: "Click button to toggle Editor mode within Singleplayer and Sandbox
 version: "1.0"
 repo: "electricgun/toggle-editor-mode"
 hidden: true
-minGameVersion: "127"
+minGameVersion: "136"
