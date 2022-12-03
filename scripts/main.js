@@ -4,7 +4,7 @@ Events.on(ClientLoadEvent, () => {
 
     let tablew = 50;
     let tableh = 50;
-    let padTop = 6;
+    let padTop = -6;
     let padLeft = 6;
 
     var table = 0;
