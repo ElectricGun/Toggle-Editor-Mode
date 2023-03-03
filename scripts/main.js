@@ -40,13 +40,16 @@ Events.on(ResetEvent, () => {
 
 var variable;
 var variable2;
-
-Events.run(Trigger.update, () => {
+var Task;
+Events.run(Trigger.update, () => {                               //horribly written pls fix
     let isMenu = Core.scene.getDialog() == Vars.ui.paused
-    if (variable != isMenu) {variable = isMenu; variable2 = true;};              
-    if (isMenu == true) {variable2 = false}                                      //if player exits from pause menu, variable2 = true.
+    if (variable != isMenu) {variable = isMenu; variable2 = true;
+        Vars.state.rules.editor = false;
+        Task = (Timer.schedule (() => {Vars.state.rules.editor = isEditor;
+        variable2 = false;}, 1))};              //delay prevents going back to edit mode immediately upon clicking Save and Quit
 
+    if (isMenu == true) {variable2 = false; if (Task != null) {Task.cancel()}}
     if(variable2 != true) {Vars.state.rules.editor = isEditor;}
-    else {Time.runTask (60, () => {Vars.state.rules.editor = isEditor; variable2 = false;})}    //delay prevents going back to edit mode immediately upon clicking Save and Quit
+    else{}    
     if (isMenu) {Vars.state.rules.editor = false};
 });
