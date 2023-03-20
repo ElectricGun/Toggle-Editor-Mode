@@ -1,7 +1,7 @@
 name: "toggle-editor-mode"
 displayName: "Toggle Editor Mode"
 author: "ElectricGun"
-description: "Click button to toggle Editor mode within Singleplayer and Sandbox.\n\n[stat]Made for editing World Processors outside of the Editor.\n\nDoes not work on Multiplayer and Campaign."
+description: "Allows access to Editor Mode on Sandbox and Singleplayer\n\nDoes not work on Multiplayer and Campaign."
 version: "2.0"
 repo: "electricgun/toggle-editor-mode"
 hidden: true
