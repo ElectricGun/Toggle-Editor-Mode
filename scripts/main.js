@@ -1,6 +1,6 @@
 var isEditor = false;
 
-function newTable () {
+function newTable() {
     let t = new Table();
     t.bottom().left();
     t.table(Tex.pane, t => {
@@ -42,7 +42,7 @@ var variable;
 var variable2;
 var Task;
 Events.run(Trigger.update, () => {                               //horribly written pls fix
-    let isMenu = Core.scene.getDialog() == Vars.ui.paused
+    let isMenu = Core.scene.getDialog() == Vars.ui.paused;
     if (variable != isMenu) {variable = isMenu; variable2 = true;
         Vars.state.rules.editor = false;
         Task = (Timer.schedule (() => {Vars.state.rules.editor = isEditor;
@@ -50,6 +50,6 @@ Events.run(Trigger.update, () => {                               //horribly writ
 
     if (isMenu == true) {variable2 = false; if (Task != null) {Task.cancel()}}
     if(variable2 != true) {Vars.state.rules.editor = isEditor;}
-    else{}    
+    //else{}    
     if (isMenu) {Vars.state.rules.editor = false};
 });
