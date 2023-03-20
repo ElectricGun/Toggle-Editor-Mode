@@ -6,6 +6,10 @@ function newTable() {
     t.bottom().left();
     t.table(Tex.pane, t => {
         let b = new Button(Styles.grayt);
+        let icon = new TextureRegionDrawable(Blocks.switchBlock.uiIcon);
+        b.button(icon,() => {
+    
+        });
         t.add(b).size(50, 50);
         t.y = (50, 50);
         });
