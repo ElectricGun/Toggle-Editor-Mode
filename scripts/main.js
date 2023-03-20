@@ -1,4 +1,5 @@
 var isEditor = false;
+var active = false;
 
 function newTable() {
     let t = new Table();
@@ -19,23 +20,33 @@ function newTable() {
         if (Vars.state.rules.sector || Vars.net.client()) {
                     print("That would be cheating");
                     return;
-                } 
+                }
+        else if(active != Vars.state.rules.editor) {print("Are you in actual edit mode? Please don't do that"); return;}
         isEditor = !isEditor;
+        active = !active;
+        Vars.state.rules.editor = active
         print(isEditor)
     })
     return t;
 };
 
-Events.on(ClientLoadEvent, () => {
-    var table = newTable()
-    Vars.ui.hudGroup.addChild(table);
-    if (Vars.mobile == true) {
-        table.moveBy(0, Scl.scl(45))
-    }
+Events.on(WorldLoadEvent, () => {
+    try{Vars.ui.hudGroup.removeChild(table)} catch(exception) {print("n")};
+    isEditor = false;
+    active = false;
+    if (!Vars.state.rules.editor) {
+        var table = newTable();
+        Vars.ui.hudGroup.addChild(table);
+        if (Vars.mobile == true) {
+            table.moveBy(0, Scl.scl(45));
+        };
+        print("y")
+    };
+    try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {print("n")};
 });
 
 Events.on(ResetEvent, () => {
-    isEditor = false;
+
 });
 
 var variable;
@@ -43,13 +54,16 @@ var variable2;
 var Task;
 Events.run(Trigger.update, () => {                               //horribly written pls fix
     let isMenu = Core.scene.getDialog() == Vars.ui.paused;
-    if (variable != isMenu) {variable = isMenu; variable2 = true;
-        Vars.state.rules.editor = false;
-        Task = (Timer.schedule (() => {Vars.state.rules.editor = isEditor;
-        variable2 = false;}, 1))};              //delay prevents going back to edit mode immediately upon clicking Save and Quit
+    if(active) {
+        if (variable != isMenu) {variable = isMenu; variable2 = true;
+            Vars.state.rules.editor = false;
+            Task = (Timer.schedule (() => {Vars.state.rules.editor = isEditor;
+            variable2 = false;}, 1))};              //delay prevents going back to edit mode immediately upon clicking Save and Quit
 
-    if (isMenu == true) {variable2 = false; if (Task != null) {Task.cancel()}}
-    if(variable2 != true) {Vars.state.rules.editor = isEditor;}
-    //else{}    
-    if (isMenu) {Vars.state.rules.editor = false};
+        if (isMenu == true) {variable2 = false; if (Task != null) {Task.cancel()}}
+        if(variable2 == false) {Vars.state.rules.editor = isEditor;}
+        //else{}    
+        if (isMenu) {Vars.state.rules.editor = false};
+    };
+    //print(active)
 });
