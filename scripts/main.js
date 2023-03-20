@@ -5,7 +5,7 @@ function newTable() {
     let t = new Table();
     t.bottom().left();
     t.table(Tex.pane, t => {
-        let b = new Button(Styles.grayt);
+        let b = new Button(Styles.none);
         let icon = new TextureRegionDrawable(Blocks.switchBlock.uiIcon);
         b.button(icon,() => {
     
