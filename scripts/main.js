@@ -42,7 +42,7 @@ Events.on(WorldLoadEvent, () => {
         var table = newTable();
         Vars.ui.hudGroup.addChild(table);
         if (Vars.mobile == true) {
-            table.moveBy(0, Scl.scl(45));
+            table.moveBy(0, Scl.scl(46));
         };
         print("y")
     };
