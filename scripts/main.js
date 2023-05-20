@@ -1,5 +1,6 @@
 var isEditor = false;
 var active = false;
+var upOffset = 0;
 
 function newTable() {
     let t = new Table();
@@ -30,9 +31,24 @@ function newTable() {
         active = !active;
         Vars.state.rules.editor = active
         print(isEditor)
-    })
+    });
     return t;
 };
+
+Events.on(ClientLoadEvent, () => {
+    let testUtils = Vars.mods.getMod("test-utils");
+    let timeControl = Vars.mods.getMod("time-control");
+    
+    if (testUtils != null && testUtils.isSupported() && testUtils.enabled()) {
+        upOffset += 120;
+    };
+    if (timeControl != null && timeControl.isSupported() && timeControl.enabled()) {
+        upOffset += 68;
+    };
+    if (Vars.mobile == true) {
+        upOffset += 46;
+    };
+});
 
 Events.on(WorldLoadEvent, () => {
     try{Vars.ui.hudGroup.removeChild(table)} catch(exception) {print("n")};
@@ -41,16 +57,9 @@ Events.on(WorldLoadEvent, () => {
     if (!Vars.state.rules.editor) {
         var table = newTable();
         Vars.ui.hudGroup.addChild(table);
-        if (Vars.mobile == true) {
-            table.moveBy(0, Scl.scl(46));
-        };
-        print("y")
     };
+    table.moveBy(0, Scl.scl(upOffset));
     try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {print("n")};
-});
-
-Events.on(ResetEvent, () => {
-
 });
 
 var variable;
