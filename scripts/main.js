@@ -40,6 +40,9 @@ Events.on(ClientLoadEvent, () => {
     let timeControl = Vars.mods.getMod("time-control");
     
     if (testUtils != null && testUtils.isSupported() && testUtils.enabled()) {
+        if (Vars.mobile == true && Core.settings.getBool("console")) {
+            upOffset += 60;
+        }
         upOffset += 120;
     };
     if (timeControl != null && timeControl.isSupported() && timeControl.enabled()) {
