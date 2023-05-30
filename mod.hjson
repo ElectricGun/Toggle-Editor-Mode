@@ -2,7 +2,7 @@ name: "toggle-editor-mode"
 displayName: "Toggle Editor Mode"
 author: "ElectricGun"
 description: "Allows access to Editor Mode on Sandbox and Singleplayer\n\nDoes not work on Multiplayer and Campaign.\n\nUpdate: Taken account for Testing Utilities and Time Control panels."
-version: "2.0"
+version: "2.1"
 repo: "electricgun/toggle-editor-mode"
 hidden: true
 minGameVersion: "136"
