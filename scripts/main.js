@@ -23,14 +23,14 @@ function newTable() {
     };
     t.clicked(() => {
         if (Vars.state.rules.sector || Vars.net.client()) {
-                    print("That would be cheating");
+                    Log.infoTag("Toggle-Editor", "That would be cheating");
                     return;
                 }
-        else if(active != Vars.state.rules.editor) {print("Are you in actual edit mode? Please don't do that"); return;}
+        else if(active != Vars.state.rules.editor) {Log.infoTag("Toggle-Editor", "Are you in actual edit mode? Please don't do that"); return;}
         isEditor = !isEditor;
         active = !active;
         Vars.state.rules.editor = active
-        print(isEditor)
+        //print(isEditor)
     });
     return t;
 };
