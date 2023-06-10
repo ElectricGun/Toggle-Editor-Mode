@@ -54,7 +54,7 @@ Events.on(ClientLoadEvent, () => {
 });
 
 Events.on(WorldLoadEvent, () => {
-    try{Vars.ui.hudGroup.removeChild(table)} catch(exception) {print("n")};
+    try{Vars.ui.hudGroup.removeChild(table)} catch(exception) {};
     isEditor = false;
     active = false;
     if (!Vars.state.rules.editor) {
@@ -62,7 +62,7 @@ Events.on(WorldLoadEvent, () => {
         Vars.ui.hudGroup.addChild(table);
     };
     table.moveBy(0, Scl.scl(upOffset));
-    try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {print("n")};
+    try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {};
 });
 
 var variable;
