@@ -61,7 +61,7 @@ Events.on(WorldLoadEvent, () => {
         var table = newTable();
         Vars.ui.hudGroup.addChild(table);
     };
-    table.moveBy(0, Scl.scl(upOffset));
+    try{table.moveBy(0, Scl.scl(upOffset))} catch(e) {print(e)};
     try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {};
 });
 
