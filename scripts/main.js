@@ -65,11 +65,11 @@ Events.on(WorldLoadEvent, () => {
     try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {};
 });
 
-var variable;
-var variable2;
+var variable = false;
+var variable2 = false;
 var task;
 Events.run(Trigger.update, () => {                               //horribly written pls fix
-    let isMenu = Core.scene.getDialog() == Vars.ui.paused;
+    let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused;
     if(active) {
         if (variable != isMenu) {variable = isMenu; variable2 = true;
             Vars.state.rules.editor = false;
