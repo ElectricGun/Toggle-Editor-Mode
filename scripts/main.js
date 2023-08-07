@@ -69,7 +69,8 @@ var variable = false;
 var variable2 = false;
 var task;
 Events.run(Trigger.update, () => {                               //horribly written pls fix
-    let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused;
+    let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused &&
+        !Vars.ui.schematics;
     if(active) {
         if (variable != isMenu) {variable = isMenu; variable2 = true;
             Vars.state.rules.editor = false;
