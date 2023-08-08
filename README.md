@@ -9,4 +9,8 @@ Changelog:
 <br>
 Taken account for Testing Utilities and Time Control panels.
 <br>
-Button shouldn't overlap Command Mode on mobile.
+Fixed crashing when entering edit mode
+<br>
+Fixed delay
+<br>
+etc
