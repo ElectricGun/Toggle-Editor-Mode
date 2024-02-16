@@ -1,6 +1,7 @@
-var isEditor = false;
+const config = JSON.parse(Jval.read(Vars.tree.get("data/config.hjson").readString()))
+
 var active = false;
-var upOffset = 0;
+var table;
 
 function newTable() {
     let t = new Table();
@@ -14,36 +15,77 @@ function newTable() {
         t.add(b).size(50, 50);
         t.y = (50, 50);
         });
+
     t.visibility = () => {
-        if(!Vars.ui.hudfrag.shown || Vars.ui.consolefrag.shown() || Vars.ui.minimapfrag.shown()) {
+        if(!Vars.ui.hudfrag.shown || Vars.ui.consolefrag.shown() || Vars.ui.minimapfrag.shown() || Vars.net.client() || (Vars.state.rules.sector != null && config.cheatMode != true)) {
             return false;
         } else {
             return true;
         }
     };
+
     t.clicked(() => {
-        if (Vars.state.rules.sector || Vars.net.client()) {
-                    Log.infoTag("Toggle-Editor", "That would be cheating");
-                    return;
-                }
-        else if(active != Vars.state.rules.editor) {Log.infoTag("Toggle-Editor", "Are you in actual edit mode? Please don't do that"); return;}
-        isEditor = !isEditor;
+        if (Vars.net.client()) {
+            Log.infoTag("Toggle-Editor", "Failure. Are you online?");
+            return;
+        }
+
+        if (Vars.state.rules.sector != null && config.cheatMode != true) {
+            Log.infoTag("Toggle-Editor", "Failure. Are you cheating? (Enable <cheatMode> in config to bypass this error)");
+            return;
+        }
+
+        if (active != Vars.state.rules.editor) {
+            Log.infoTag("Toggle-Editor", "Failure. Are you in actual edit mode?"); 
+            return;
+        }
+
         active = !active;
-        Vars.state.rules.editor = active
-        //print(isEditor)
+        Vars.state.rules.editor = active;
     });
     return t;
 };
 
 Events.on(ClientLoadEvent, () => {
+    table = newTable();
+})
+
+Events.on(ResetEvent, () => {
+    active = false;
+    Vars.state.rules.editor = active;
+})
+
+Events.on(WorldLoadEvent, () => {
+
+    active = false;
+
     let testUtils = Vars.mods.getMod("test-utils");
     let timeControl = Vars.mods.getMod("time-control");
+    let upOffset = 0;
+
+    try{
+        Vars.ui.hudGroup.removeChild(table);
+    } catch(exception) {
+        // do something if error
+        print(exception)
+    };
+
+    
+    // set offset if timec and testutils //
     
     if (testUtils != null && testUtils.isSupported() && testUtils.enabled()) {
         if (Vars.mobile == true && Core.settings.getBool("console")) {
             upOffset += 60;
         }
-        upOffset += 120;
+
+        print(Vars.state.rules.sector != null)
+
+        if (Vars.state.rules.sector != null) {
+            upOffset += 60;
+
+        } else {
+            upOffset += 120;
+        }
     };
     if (timeControl != null && timeControl.isSupported() && timeControl.enabled()) {
         upOffset += 68;
@@ -51,36 +93,34 @@ Events.on(ClientLoadEvent, () => {
     if (Vars.mobile == true) {
         upOffset += 46;
     };
-});
 
-Events.on(WorldLoadEvent, () => {
-    try{Vars.ui.hudGroup.removeChild(table)} catch(exception) {};
-    isEditor = false;
-    active = false;
+
+
     if (!Vars.state.rules.editor) {
-        var table = newTable();
         Vars.ui.hudGroup.addChild(table);
     };
-    try{table.moveBy(0, Scl.scl(upOffset))} catch(e) {print(e)};
-    try{if(active != Vars.state.rules.editor) {Vars.ui.hudGroup.removeChild(table)}} catch(exception) {};
+
+    try {
+        table.setPosition(0, Scl.scl(upOffset))
+    } catch(e) {
+        print(e)
+    };
+    try {
+        if (active != Vars.state.rules.editor) {
+            Vars.ui.hudGroup.removeChild(table)
+        }
+    } catch(exception) {
+        // do something if error
+        print(exception)
+    };
 });
 
-var variable = false;
-var variable2 = false;
-var task;
-Events.run(Trigger.update, () => {                               //horribly written pls fix
-    let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused &&
-        !Vars.ui.schematics;
-    if(active) {
-        if (variable != isMenu) {variable = isMenu; variable2 = true;
-            Vars.state.rules.editor = false;
-            task = (Timer.schedule (() => {Vars.state.rules.editor = isEditor;
-            variable2 = false;}, 1))};              //delay prevents going back to edit mode immediately upon clicking Save and Quit
 
-        if (isMenu == true) {variable2 = false; if (task != null) {task.cancel()}}
-        if(variable2 == false) {Vars.state.rules.editor = isEditor;}
-        //else{}    
-        if (isMenu) {Vars.state.rules.editor = false};
+Events.run(Trigger.update, () => {                               //horribly written pls fix
+    let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused;
+    
+    if(active && isMenu) {
+        Vars.state.rules.editor = false;
+        active = false   ;
     };
-    //print(active)
 });
