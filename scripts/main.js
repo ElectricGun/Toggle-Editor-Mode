@@ -116,7 +116,7 @@ Events.on(WorldLoadEvent, () => {
 });
 
 
-Events.run(Trigger.update, () => {                               //horribly written pls fix
+Events.run(Trigger.update, () => {
     let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused;
     
     if(active && isMenu) {
