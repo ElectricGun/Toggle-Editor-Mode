@@ -117,7 +117,7 @@ Events.on(WorldLoadEvent, () => {
 
 
 Events.run(Trigger.update, () => {
-    let isMenu = (Core.scene.getDialog() != null) && Vars.state.paused;
+    let isMenu = (Core.scene.getDialog() == Vars.ui.paused);
     
     if(active && isMenu) {
         Vars.state.rules.editor = false;
